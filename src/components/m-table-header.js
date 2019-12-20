@@ -8,6 +8,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { Tooltip } from '@material-ui/core';
 /* eslint-enable no-unused-vars */
 
 export class MTableHeader extends React.Component {
@@ -63,7 +64,7 @@ export class MTableHeader extends React.Component {
           );
         }
 
-        return (
+        const tableCell = 
           <TableCell
             key={columnDef.tableData.id}
             align={['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left"}
@@ -71,7 +72,16 @@ export class MTableHeader extends React.Component {
             style={{ ...this.props.headerStyle, ...columnDef.headerStyle }}
           >
             {content}
-          </TableCell>
+          </TableCell>;
+        
+        return (
+          <>
+            {columnDef.headerTooltip && 
+              <Tooltip title={columnDef.headerTooltip} position='top'>
+                {tableCell}
+              </Tooltip>}
+            {!columnDef.headerTooltip && tableCell}
+          </>
         );
       });
     return mapArr;
