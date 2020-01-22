@@ -79,6 +79,11 @@ class App extends Component {
                   columns={this.state.columns}
                   data={this.state.data}
                   title="Demo Title"
+                  editable={{
+                    onRowAdd: (data) => console.log(data),
+                    onRowUpdate: (data) => console.log(data),
+                    onRowDelete: (data) => console.log(data),
+                  }}
                   onRowClick={((evt, selectedRow) => this.setState({ selectedRow }))}
                   options={{
                     rowStyle: rowData => ({

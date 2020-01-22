@@ -494,6 +494,7 @@ export default class MaterialTable extends React.Component {
       const totalCount = isOutsidePageNumbers
         ? props.totalCount
         : this.state.data.length;
+      const isEditMode = !!(this.state.lastEditingRow || this.state.showAddRow);
 
       return (
         <Table>
@@ -511,7 +512,7 @@ export default class MaterialTable extends React.Component {
                 count={this.isRemoteData() ? this.state.query.totalCount : totalCount}
                 icons={props.icons}
                 rowsPerPage={this.state.pageSize}
-                rowsPerPageOptions={props.options.pageSizeOptions}
+                rowsPerPageOptions={isEditMode ? [] : props.options.pageSizeOptions}
                 SelectProps={{
                   renderValue: value => <div style={{ padding: '0px 5px' }}>{value + ' ' + localization.labelRowsSelect + ' '}</div>
                 }}
@@ -519,8 +520,8 @@ export default class MaterialTable extends React.Component {
                 onChangePage={this.onChangePage}
                 onChangeRowsPerPage={this.onChangeRowsPerPage}
                 ActionsComponent={(subProps) => props.options.paginationType === 'normal' ?
-                  <MTablePagination {...subProps} icons={props.icons} localization={localization} showFirstLastPageButtons={props.options.showFirstLastPageButtons} /> :
-                  <MTableSteppedPagination {...subProps} icons={props.icons} localization={localization} showFirstLastPageButtons={props.options.showFirstLastPageButtons} />}
+                  <MTablePagination {...subProps} icons={props.icons} localization={localization} showFirstLastPageButtons={props.options.showFirstLastPageButtons} disabled={isEditMode} /> :
+                  <MTableSteppedPagination {...subProps} icons={props.icons} localization={localization} showFirstLastPageButtons={props.options.showFirstLastPageButtons} disabled={isEditMode} />}
                 labelDisplayedRows={(row) => localization.labelDisplayedRows.replace('{from}', row.from).replace('{to}', row.to).replace('{count}', row.count)}
                 labelRowsPerPage={localization.labelRowsPerPage}
               />
